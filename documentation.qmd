@@ -64,29 +64,13 @@ Nous avons décidé de nous intéresser au sujet 3: `Attractivité fiscale des t
 
 
 
-## Choix Techniques
+## Choix techniques
 
 L'objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l'attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d'outils open source, en prenant en compte l'expertise préexistante de notre équipe et la facilité d'intégration de ces technologies.
 
 ### Technologies Utilisées
-Python
- Python est un langage de programmation polyvalent, largement adopté pour le traitement de données et le développement web. Sa popularité et sa vaste communauté offrent un accès à un riche éventail de bibliothèques et de frameworks, facilitant ainsi le développement rapide et efficace de notre solution.
-Utilisation dans le projet : Python sera utilisé pour le traitement des données, la logique de l'application et l'intégration avec des sources de données externes.
-Shiny pour Python
 
-Raison du choix : Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement.
-Utilisation dans le projet : Shiny servira à construire l'interface utilisateur du dashboard, y compris les zones de texte, les cases à cocher, et d'autres éléments interactifs permettant aux utilisateurs de filtrer et de visualiser les données.
-Fonctionnalités du Dashboard
-Le tableau de bord offrira les fonctionnalités suivantes :
-
-Visualisation sur Carte : Affichage des communes de France sur une carte interactive.
-Filtres Utilisateur : Possibilité pour les utilisateurs de filtrer les données en fonction de différents paramètres (zone de texte, cases à cocher, etc.).
-Analyse de l'Attractivité Fiscale : Visualisation de l'attractivité fiscale des territoires pour les entreprises basée sur les paramètres sélectionnés par l'utilisateur.
-Interactivité : Réactivité en temps réel aux choix de l'utilisateur, permettant une exploration dynamique des données.
-Avantages de cette Approche
-Cohérence avec les compétences de l'équipe : Utilisation de technologies familières à l'équipe, garantissant une courbe d'apprentissage minime et une efficacité accrue.
-Flexibilité et évolutivité : Python et Shiny offrent une grande flexibilité pour l'ajout de nouvelles fonctionnalités et l'intégration avec d'autres systèmes à l'avenir.
-Communauté et support : Accès à une large communauté pour le support, les ressources d'apprentissage et les bibliothèques partagées.
-En résumé, le choix de Python et Shiny pour développer ce dashboard est guidé par leur adaptabilité, leur facilité d'utilisation et leur adéquation avec les compétences existantes de notre équipe, tout en offrant une plateforme robuste pour une visualisation interactive et détaillée des données fiscales des communes en France.
-
-
+| Technologie | Description                                                                                                                            |
+|---------------------------|---------------------------------------------|
+| `Python`               | Python est un langage de programme très connu                                                                         |
+| `Shiny`      | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                                                                                     |

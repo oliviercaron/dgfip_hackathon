@@ -147,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#choix-du-sujet" id="toc-choix-du-sujet" class="nav-link active" data-scroll-target="#choix-du-sujet"><span class="header-section-number">1</span> Choix du sujet</a></li>
   <li><a href="#choix-métiers" id="toc-choix-métiers" class="nav-link" data-scroll-target="#choix-métiers"><span class="header-section-number">2</span> Choix métiers</a></li>
-  <li><a href="#choix-techniques" id="toc-choix-techniques" class="nav-link" data-scroll-target="#choix-techniques"><span class="header-section-number">3</span> Choix Techniques</a>
+  <li><a href="#choix-techniques" id="toc-choix-techniques" class="nav-link" data-scroll-target="#choix-techniques"><span class="header-section-number">3</span> Choix techniques</a>
   <ul class="collapse">
   <li><a href="#technologies-utilisées" id="toc-technologies-utilisées" class="nav-link" data-scroll-target="#technologies-utilisées"><span class="header-section-number">3.1</span> Technologies Utilisées</a></li>
   </ul></li>
@@ -169,13 +169,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="2" class="anchored" data-anchor-id="choix-métiers"><span class="header-section-number">2</span> Choix métiers</h2>
 </section>
 <section id="choix-techniques" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="choix-techniques"><span class="header-section-number">3</span> Choix Techniques</h2>
+<h2 data-number="3" class="anchored" data-anchor-id="choix-techniques"><span class="header-section-number">3</span> Choix techniques</h2>
 <p>L’objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l’attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d’outils open source, en prenant en compte l’expertise préexistante de notre équipe et la facilité d’intégration de ces technologies.</p>
 <section id="technologies-utilisées" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="technologies-utilisées"><span class="header-section-number">3.1</span> Technologies Utilisées</h3>
-<p>Python Python est un langage de programmation polyvalent, largement adopté pour le traitement de données et le développement web. Sa popularité et sa vaste communauté offrent un accès à un riche éventail de bibliothèques et de frameworks, facilitant ainsi le développement rapide et efficace de notre solution. Utilisation dans le projet : Python sera utilisé pour le traitement des données, la logique de l’application et l’intégration avec des sources de données externes. Shiny pour Python</p>
-<p>Raison du choix : Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s’appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement. Utilisation dans le projet : Shiny servira à construire l’interface utilisateur du dashboard, y compris les zones de texte, les cases à cocher, et d’autres éléments interactifs permettant aux utilisateurs de filtrer et de visualiser les données. Fonctionnalités du Dashboard Le tableau de bord offrira les fonctionnalités suivantes :</p>
-<p>Visualisation sur Carte : Affichage des communes de France sur une carte interactive. Filtres Utilisateur : Possibilité pour les utilisateurs de filtrer les données en fonction de différents paramètres (zone de texte, cases à cocher, etc.). Analyse de l’Attractivité Fiscale : Visualisation de l’attractivité fiscale des territoires pour les entreprises basée sur les paramètres sélectionnés par l’utilisateur. Interactivité : Réactivité en temps réel aux choix de l’utilisateur, permettant une exploration dynamique des données. Avantages de cette Approche Cohérence avec les compétences de l’équipe : Utilisation de technologies familières à l’équipe, garantissant une courbe d’apprentissage minime et une efficacité accrue. Flexibilité et évolutivité : Python et Shiny offrent une grande flexibilité pour l’ajout de nouvelles fonctionnalités et l’intégration avec d’autres systèmes à l’avenir. Communauté et support : Accès à une large communauté pour le support, les ressources d’apprentissage et les bibliothèques partagées. En résumé, le choix de Python et Shiny pour développer ce dashboard est guidé par leur adaptabilité, leur facilité d’utilisation et leur adéquation avec les compétences existantes de notre équipe, tout en offrant une plateforme robuste pour une visualisation interactive et détaillée des données fiscales des communes en France.</p>
+<table class="table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 62%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Technologie</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Python</code></td>
+<td>Python est un langage de programme très connu</td>
+</tr>
+<tr class="even">
+<td><code>Shiny</code></td>
+<td>Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s’appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement</td>
+</tr>
+</tbody>
+</table>
 <!-- -->
 
 </section>
@@ -533,31 +552,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix Techniques</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix techniques</span></span>
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>L'objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l'attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d'outils open source, en prenant en compte l'expertise préexistante de notre équipe et la facilité d'intégration de ces technologies.</span>
 <span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### Technologies Utilisées</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>Python</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a> Python est un langage de programmation polyvalent, largement adopté pour le traitement de données et le développement web. Sa popularité et sa vaste communauté offrent un accès à un riche éventail de bibliothèques et de frameworks, facilitant ainsi le développement rapide et efficace de notre solution.</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>Utilisation dans le projet : Python sera utilisé pour le traitement des données, la logique de l'application et l'intégration avec des sources de données externes.</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>Shiny pour Python</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>Raison du choix : Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement.</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>Utilisation dans le projet : Shiny servira à construire l'interface utilisateur du dashboard, y compris les zones de texte, les cases à cocher, et d'autres éléments interactifs permettant aux utilisateurs de filtrer et de visualiser les données.</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>Fonctionnalités du Dashboard</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>Le tableau de bord offrira les fonctionnalités suivantes :</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>Visualisation sur Carte : Affichage des communes de France sur une carte interactive.</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>Filtres Utilisateur : Possibilité pour les utilisateurs de filtrer les données en fonction de différents paramètres (zone de texte, cases à cocher, etc.).</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>Analyse de l'Attractivité Fiscale : Visualisation de l'attractivité fiscale des territoires pour les entreprises basée sur les paramètres sélectionnés par l'utilisateur.</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>Interactivité : Réactivité en temps réel aux choix de l'utilisateur, permettant une exploration dynamique des données.</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>Avantages de cette Approche</span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>Cohérence avec les compétences de l'équipe : Utilisation de technologies familières à l'équipe, garantissant une courbe d'apprentissage minime et une efficacité accrue.</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>Flexibilité et évolutivité : Python et Shiny offrent une grande flexibilité pour l'ajout de nouvelles fonctionnalités et l'intégration avec d'autres systèmes à l'avenir.</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>Communauté et support : Accès à une large communauté pour le support, les ressources d'apprentissage et les bibliothèques partagées.</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>En résumé, le choix de Python et Shiny pour développer ce dashboard est guidé par leur adaptabilité, leur facilité d'utilisation et leur adéquation avec les compétences existantes de notre équipe, tout en offrant une plateforme robuste pour une visualisation interactive et détaillée des données fiscales des communes en France.</span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>| Technologie | Description                                                                                                                            |</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>|---------------------------|---------------------------------------------|</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Python`</span>               | Python est un langage de programme très connu                                                                         |</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Shiny`</span>      | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                                                                                     |</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
