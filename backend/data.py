@@ -4,6 +4,6 @@ import pandas as pd
 
 
 # Gérer les lignes problématiques en utilisant 'on_bad_lines'
-df = pd.read_csv('Classeur1.csv')
+df = pd.read_excel('Classeur1.xlsx')
 
 print(df)
