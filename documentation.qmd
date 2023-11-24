@@ -56,13 +56,24 @@ css: styles.css
 reference-location: margin
 ---
 
+```{r}
+#| label: library-load-data
+
+library(tidyverse)
+library("readxl")
+
+data <- read_xlsx("data/REI_2022.xlsx")
+data_test <- data %>%
+  filter(DEPARTEMENT == 16)
+
+write_csv(data_test, "data/REI_2022_16.csv")
+```
+
 ## Choix du sujet
 
 Nous avons décidé de nous intéresser au sujet 3: `Attractivité fiscale des territoires pour les entreprises`
 
 ## Choix métiers
-
-
 
 ## Choix techniques
 
@@ -70,7 +81,7 @@ L'objectif de ce projet est de développer un tableau de bord interactif permett
 
 ### Technologies Utilisées
 
-| Technologie | Description                                                                                                                            |
+| Technologie | Description                                                                                                                                                                                                  |
 |---------------------------|---------------------------------------------|
-| `Python`               | Python est un langage de programme très connu                                                                         |
-| `Shiny`      | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                                                                                     |
+| `Python`    | Python est un langage de programme très connu                                                                                                                                                                |
+| `Shiny`     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement |
