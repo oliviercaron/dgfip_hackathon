@@ -1,6 +1,16 @@
 library(shiny)
 library(shinydashboard)
-library(leaflet)
+library(plotly)
+library(tidyverse)
+library(rjson)
+
+# Chargement et préparation des données
+communes_data <- read.csv("data/v_commune_2023.csv") %>%
+  filter(DEP %in% c(16)) %>%
+  select(COM, NCCENR) %>%
+  rename(code = COM, nom = NCCENR) %>%
+  mutate(cfe = round(runif(n(), min = 2.5, max = 15.7),2)) %>%
+  mutate(hover_text = paste0(nom, "<br>", cfe))
 
 # Définir l'interface utilisateur
 ui <- dashboardPage(
@@ -17,7 +27,7 @@ ui <- dashboardPage(
     tabItems(
       tabItem(tabName = "tabMap",
               fluidRow(
-                column(12, leafletOutput("map", height = "95vh"))
+                column(12, plotlyOutput("map", height = "95vh"))  # Modification ici
               )
       ),
       tabItem(tabName = "tabTable", 
@@ -29,10 +39,38 @@ ui <- dashboardPage(
 
 # Définir la logique du serveur
 server <- function(input, output) {
-  output$map <- renderLeaflet({
-    leaflet() %>%
-      addTiles() %>%
-      setView(lng = 2.2137, lat = 46.2276, zoom = 6)
+  output$map <- renderPlotly({  # Utiliser renderPlotly
+    url <- 'data/communes-16-charente.geojson'
+    geojson <- rjson::fromJSON(file=url)
+    g <- list(
+      fitbounds = "locations",
+      visible = FALSE,
+      scope = "france"
+    )
+    fig <- plot_ly() 
+    fig <- fig %>% add_trace(
+      type="choroplethmapbox",
+      geojson=geojson,
+      locations=communes_data$code,
+      z=communes_data$cfe,
+      text = communes_data$hover_text,
+      hoverinfo = "text",
+      colorscale="Viridis",
+      reversescale=TRUE,
+      featureidkey="properties.code",
+      marker=list(line=list(
+        width=0.5),
+        opacity=0.8
+      )
+    )
+    fig <- fig %>% colorbar(title = "cef")
+    fig <- fig %>% layout(
+      mapbox=list(
+        style="carto-positron",
+        zoom =7,  # Ajuster le niveau de zoom pour mieux cadrer le département 16
+        center=list(lon= 0.1, lat=45.7)  # Coordonnées centrées sur le département 16
+      )
+    )
   })
   
   output$salutation <- renderText({

@@ -81,9 +81,10 @@ write_csv2(delib_test, "data/delib_95_33_16.csv")
 
 communes_data <- read.csv("data/v_commune_2023.csv") %>%
   filter(DEP %in% c(16)) %>%
-  select(COM) %>%
-  rename(code = COM) %>%
-  mutate(cfe = round(runif(n(), min = 2.5, max = 15.7),2))
+  select(COM, NCCENR) %>%
+  rename(code = COM, nom = NCCENR) %>%
+  mutate(cfe = round(runif(n(), min = 2.5, max = 15.7),2)) %>%
+  mutate(hover_text = paste0(nom, "<br>", cfe))
   
 ```
 
@@ -124,7 +125,10 @@ fig <- fig %>% add_trace(
     geojson=geojson,
     locations=communes_data$code,
     z=communes_data$cfe,
+    text = communes_data$hover_text,
+    hoverinfo = "text",
     colorscale="Viridis",
+    reversescale=TRUE,
     featureidkey="properties.code",
     marker=list(line=list(
       width=0.5),
@@ -136,9 +140,16 @@ fig <- fig %>% layout(
     mapbox=list(
       style="carto-positron",
       zoom =7,  # Ajuster le niveau de zoom pour mieux cadrer le département 16
-      center=list(lon= 0.4, lat=45.7)  # Coordonnées centrées sur le département 16
+      center=list(lon= 0.1, lat=45.7)  # Coordonnées centrées sur le département 16
   )
 )
+
+#"open-street-map" : style de carte OpenStreetMap standard.
+#"white-bg" : carte avec un fond blanc, sans détails topographiques.
+#"carto-positron" : style clair et minimaliste, déjà utilisé dans votre code.
+#"carto-darkmatter" : variante sombre de Carto.
+#"stamen-terrain" : style accentuant les caractéristiques physiques du terrain.
+#"stamen-toner" : style en noir et blanc, accentuant les contrastes.
 
 fig
 ```
