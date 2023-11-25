@@ -37,7 +37,7 @@ format:
       light: yeti
       #dark: darkly
     code-fold: true
-    code-summary: "Afficher code"
+    code-summary: "Display code"
     code-tools: true #enables to display/hide all blocks of code
     code-copy: true #enables to copy code
     grid:
@@ -52,9 +52,11 @@ execute:
 editor: visual
 fig-align: "center"
 highlight-style: ayu
+css: styles.css
 reference-location: margin
 ---
 
+<<<<<<< HEAD
 ```{r}
 #| label: library-load-data
 #| echo: false
@@ -89,11 +91,15 @@ communes_data <- read.csv("data/v_commune_2023.csv") %>%
   
 ```
 
+=======
+>>>>>>> 9c7f3854e06a6b9224ad6a11f9e557dfe5891a49
 ## Choix du sujet
 
 Nous avons décidé de nous intéresser au sujet 3: `Attractivité fiscale des territoires pour les entreprises`
 
 ## Choix métiers
+
+
 
 ## Choix techniques
 
@@ -101,57 +107,7 @@ L'objectif de ce projet est de développer un tableau de bord interactif permett
 
 ### Technologies Utilisées
 
-| Technologie | Description                                                                                                                                                                                                  |
+| Technologie | Description                                                                                                                            |
 |---------------------------|---------------------------------------------|
-| `Python`    | Python est un langage de programme très connu                                                                                                                                                                |
-| `Shiny`     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement |
-
-
-## Création de la carte
-
-```{r}
-library(plotly)
-library(rjson)
-
-url <- 'data/communes-16-charente.geojson'
-geojson <- rjson::fromJSON(file=url)
-g <- list(
-  fitbounds = "locations",
-  visible = FALSE,
-  scope = "france"
-)
-fig <- plot_ly() 
-fig <- fig %>% add_trace(
-    type="choroplethmapbox",
-    geojson=geojson,
-    locations=communes_data$code,
-    z=communes_data$cfe,
-    text = communes_data$hover_text,
-    hoverinfo = "text",
-    colorscale="Viridis",
-    reversescale=TRUE,
-    featureidkey="properties.code",
-    marker=list(line=list(
-      width=0.5),
-      opacity=0.8
-    )
-  )
-fig <- fig %>% colorbar(title = "cef")
-fig <- fig %>% layout(
-    mapbox=list(
-      style="carto-positron",
-      zoom =7,  # Ajuster le niveau de zoom pour mieux cadrer le département 16
-      center=list(lon= 0.1, lat=45.7)  # Coordonnées centrées sur le département 16
-  )
-)
-
-#"open-street-map" : style de carte OpenStreetMap standard.
-#"white-bg" : carte avec un fond blanc, sans détails topographiques.
-#"carto-positron" : style clair et minimaliste, déjà utilisé dans votre code.
-#"carto-darkmatter" : variante sombre de Carto.
-#"stamen-terrain" : style accentuant les caractéristiques physiques du terrain.
-#"stamen-toner" : style en noir et blanc, accentuant les contrastes.
-
-fig
-```
-
+| `Python`               | Python est un langage de programme très connu                                                                         |
+| `Shiny`      | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                                                                                     |
