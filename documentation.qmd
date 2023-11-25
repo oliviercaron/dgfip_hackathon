@@ -37,7 +37,7 @@ format:
       light: yeti
       #dark: darkly
     code-fold: true
-    code-summary: "Afficher code"
+    code-summary: "Display code"
     code-tools: true #enables to display/hide all blocks of code
     code-copy: true #enables to copy code
     grid:
@@ -52,41 +52,9 @@ execute:
 editor: visual
 fig-align: "center"
 highlight-style: ayu
+css: styles.css
 reference-location: margin
 ---
-
-```{r}
-#| label: library-load-data
-#| echo: false
-
-library(tidyverse)
-library("readxl")
-library(rjson)
-library(plotly)
-
-data <- read_xlsx("data/REI_2022.xlsx")
-data_test <- data %>%
-  filter(DEPARTEMENT %in% c(95, 33, 16)) %>%
-  select(DEPARTEMENT, DIRECTION, COMMUNE, 5, contains("CFE"))
-  
-
-delib <- read.csv2("data/deliberations-de-fiscalite-directe-locale-des-communes-2023-hors-taux.csv")
-delib_test <- delib %>%
-  filter(DEP %in% c(95, 33, 16))
-
-write_csv2(data_test, "data/REI_2022_95_33_16(1).csv")
-write_csv2(delib_test, "data/delib_95_33_16.csv")
-#write.table(data_test, file = "data/REI_2022_95_33_16_UTF8.csv", sep = ";", row.names = FALSE, fileEncoding = "UTF-8")
-#write.table(delib_test, file = "data/delib_95_33_16_UTF8.csv", sep = ";", row.names = FALSE, fileEncoding = "UTF-8")
-
-communes_data <- read.csv("data/v_commune_2023.csv") %>%
-  filter(DEP %in% c(16)) %>%
-  select(COM, NCCENR) %>%
-  rename(code = COM, nom = NCCENR) %>%
-  mutate(cfe = round(runif(n(), min = 2.5, max = 15.7),2)) %>%
-  mutate(hover_text = paste0(nom, "<br>", cfe))
-  
-```
 
 ## Choix du sujet
 
@@ -94,63 +62,15 @@ Nous avons décidé de nous intéresser au sujet 3: `Attractivité fiscale des t
 
 ## Choix métiers
 
+
+
 ## Choix techniques
 
 L'objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l'attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d'outils open source, en prenant en compte l'expertise préexistante de notre équipe et la facilité d'intégration de ces technologies.
 
 ### Technologies Utilisées
 
-| Technologie | Description                                                                                                                                                                                                  |
+| Technologie | Description                                                                                                                            |
 |---------------------------|---------------------------------------------|
-| `Python`    | Python est un langage de programme très connu                                                                                                                                                                |
-| `Shiny`     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement |
-
-
-## Création de la carte
-
-```{r}
-library(plotly)
-library(rjson)
-
-url <- 'data/communes-16-charente.geojson'
-geojson <- rjson::fromJSON(file=url)
-g <- list(
-  fitbounds = "locations",
-  visible = FALSE,
-  scope = "france"
-)
-fig <- plot_ly() 
-fig <- fig %>% add_trace(
-    type="choroplethmapbox",
-    geojson=geojson,
-    locations=communes_data$code,
-    z=communes_data$cfe,
-    text = communes_data$hover_text,
-    hoverinfo = "text",
-    colorscale="Viridis",
-    reversescale=TRUE,
-    featureidkey="properties.code",
-    marker=list(line=list(
-      width=0.5),
-      opacity=0.8
-    )
-  )
-fig <- fig %>% colorbar(title = "cef")
-fig <- fig %>% layout(
-    mapbox=list(
-      style="carto-positron",
-      zoom =7,  # Ajuster le niveau de zoom pour mieux cadrer le département 16
-      center=list(lon= 0.1, lat=45.7)  # Coordonnées centrées sur le département 16
-  )
-)
-
-#"open-street-map" : style de carte OpenStreetMap standard.
-#"white-bg" : carte avec un fond blanc, sans détails topographiques.
-#"carto-positron" : style clair et minimaliste, déjà utilisé dans votre code.
-#"carto-darkmatter" : variante sombre de Carto.
-#"stamen-terrain" : style accentuant les caractéristiques physiques du terrain.
-#"stamen-toner" : style en noir et blanc, accentuant les contrastes.
-
-fig
-```
-
+| `Python`               | Python est un langage de programme très connu                                                                         |
+| `Shiny`      | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                                                                                     |
