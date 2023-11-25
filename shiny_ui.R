@@ -11,7 +11,7 @@ communes_data <- communes_data %>%
   filter(DEP %in% c(16)) %>%
   select(COM, NCCENR) %>%
   rename(code = COM, nom = NCCENR) %>%
-  mutate(cfe = round(runif(n(), min = 2.5, max = 15.7),2)) %>%
+  mutate(cfe = round(runif(n(), min = 227, max = 7046),2)) %>%
   mutate(hover_text = paste0(nom, "<br>", cfe))
 
 # Définition interface utilisateur
@@ -21,8 +21,7 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Carte", tabName = "tabMap", icon = icon("map")),
       menuItem("Tableau", tabName = "tabTable", icon = icon("table")),
-      selectInput("taxe", "Taxe", choices = c("Toutes taxes", "Cotisation financière des entreprises", "Taxe d'habitation", "Taxe foncière", "Taxe bâti", "Taxe non bâti")),
-      checkboxInput("param2", "Cocher pour 'Bonjour'", value = FALSE),
+      selectInput("taxe", "Taxe", choices = c("Cotisation financière des entreprises", "Toutes taxes", "Taxe d'habitation", "Taxe foncière", "Taxe bâti", "Taxe non bâti")),
       checkboxGroupInput("checkboxes", "Choisissez les options", 
                          choices = list("Artisan" = 1, "Activité saisonnière" = 2, "Création d'établissement" = 3)),
       numericInput("surface", "Surface du local (m²):", value = 50),
@@ -62,7 +61,7 @@ ui <- dashboardPage(
     tabItems(
       tabItem(tabName = "tabMap",
               fluidRow(
-                column(12, plotlyOutput("map", height = "95vh"))  # Modification ici
+                column(12, plotlyOutput("map", height = "95vh"))
               )
       ),
       tabItem(tabName = "tabTable", 
@@ -135,18 +134,22 @@ server <- function(input, output) {
       arrange(cfe)
     col_names <- c("Commune", "Cotisation foncières des entreprises")
     datatable(data,
-              options = list(pageLength = 10,
-                                   language = list(search = "Chercher")),
+              options = list(
+                pageLength = 10,
+                language = list(
+                  search = "Chercher",
+                  lengthMenu = "Afficher _MENU_ valeurs"
+                )
+              ),
               colnames = col_names)
   })
   
   output$taxe <- renderText({
-    n <- switch(input$taxe,
-                "1 fois" = 1,
-                "2 fois" = 2,
-                "3 fois" = 3)
-    message <- if (input$param2) "Bonjour" else "Au revoir"
-    paste(rep(message, n), collapse = " ")
+    # Récupérer la valeur sélectionnée dans le selectInput 'taxe'
+    selected_taxe <- input$taxe
+    
+    # Retourner le texte choisi pour l'afficher
+    return(selected_taxe)
   })
 }
 
