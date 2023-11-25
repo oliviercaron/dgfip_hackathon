@@ -60,8 +60,9 @@ reference-location: margin
 #| echo: false
 
 library(tidyverse)
-library("readxl")
+library(readxl)
 library(rjson)
+library(fs)
 library(plotly)
 
 data <- read_xlsx("data/REI_2022.xlsx")

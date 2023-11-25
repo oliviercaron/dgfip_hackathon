@@ -14,18 +14,19 @@ communes_data <- communes_data %>%
   mutate(cfe = round(runif(n(), min = 2.5, max = 15.7),2)) %>%
   mutate(hover_text = paste0(nom, "<br>", cfe))
 
-# Définir l'interface utilisateur
+# Définition interface utilisateur
 ui <- dashboardPage(
   dashboardHeader(title = "Attractivité fiscale"),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Carte", tabName = "tabMap", icon = icon("map")),
       menuItem("Tableau", tabName = "tabTable", icon = icon("table")),
-      selectInput("param1", "Nombre de fois", choices = c("1 fois", "2 fois", "3 fois")),
+      selectInput("taxe", "Taxe", choices = c("Toutes taxes", "Cotisation financière des entreprises", "Taxe d'habitation", "Taxe foncière", "Taxe bâti", "Taxe non bâti")),
       checkboxInput("param2", "Cocher pour 'Bonjour'", value = FALSE),
       checkboxGroupInput("checkboxes", "Choisissez les options", 
                          choices = list("Artisan" = 1, "Activité saisonnière" = 2, "Création d'établissement" = 3)),
       numericInput("surface", "Surface du local (m²):", value = 50),
+      numericInput("nb_employes", "Nombre d'employés:", value = 10),
       selectInput("typeActivite", "Type d'activité de l'entreprise :",
                   choices = c(
                     "Non incluse" = "aucune",
@@ -73,7 +74,7 @@ ui <- dashboardPage(
   )
 )
 
-# Définir la logique du serveur
+# Logique serveur
 server <- function(input, output) {
   
     # Expression réactive pour ajuster les données en fonction de la sélection de l'utilisateur
@@ -99,7 +100,7 @@ server <- function(input, output) {
     )
     custom_colorscale <- list(
       c(0, "red"),  # rouge à 0%
-      c(0.5, "yellow"),  # Jaune à 50%
+      c(0.5, "yellow"),  # jaune à 50%
       c(1, "green")  # vert à 100%
     )
     fig <- plot_ly() 
@@ -129,18 +130,18 @@ server <- function(input, output) {
   })
   
   output$dataTable <- renderDT({
-    data <- reactive_communes_data() %>%# Utiliser données réactives
+    data <- reactive_communes_data() %>%# Utiliser données réactives en réajustant données
       select(nom,cfe) %>%
       arrange(cfe)
     col_names <- c("Commune", "Cotisation foncières des entreprises")
     datatable(data,
               options = list(pageLength = 10,
                                    language = list(search = "Chercher")),
-              colnames = col_names)  # Créez le tableau ici
+              colnames = col_names)
   })
   
-  output$salutation <- renderText({
-    n <- switch(input$param1,
+  output$taxe <- renderText({
+    n <- switch(input$taxe,
                 "1 fois" = 1,
                 "2 fois" = 2,
                 "3 fois" = 3)
