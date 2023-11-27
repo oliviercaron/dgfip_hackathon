@@ -64,8 +64,7 @@ ui <- dashboardPage(
                 column(12, plotlyOutput("map", height = "95vh"))
               )
       ),
-      tabItem(tabName = "tabTable", 
-              h2(textOutput("salutation")),
+      tabItem(tabName = "tabTable",
               h2("Tableau des données"),
               DT::DTOutput("dataTable")
       )
@@ -132,7 +131,7 @@ server <- function(input, output) {
     data <- reactive_communes_data() %>%# Utiliser données réactives en réajustant données
       select(nom,cfe) %>%
       arrange(cfe)
-    col_names <- c("Commune", "Cotisation foncières des entreprises")
+    col_names <- c("Commune", "Cotisation foncière des entreprises")
     datatable(data,
               options = list(
                 pageLength = 10,

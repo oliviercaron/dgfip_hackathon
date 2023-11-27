@@ -10,7 +10,7 @@
 <meta name="author" content="Victorien Gbaguidi">
 <meta name="author" content="Sagliss Oussama">
 <meta name="author" content="David Roufé">
-<meta name="dcterms.date" content="2023-11-24">
+<meta name="dcterms.date" content="2023-11-25">
 
 <title>Hackathon DGFIP PSL 2023</title>
 <style>
@@ -74,7 +74,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="documentation_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -82,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <div class="quarto-title-block"><div><h1 class="title">Hackathon DGFIP PSL 2023</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+      <div class="quarto-title-block"><div><h1 class="title">Hackathon DGFIP PSL 2023</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
             <p class="subtitle lead">Attractivité fiscale des territoires pour les entreprises</p>
                       </div>
   </div>
@@ -131,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 24, 2023</p>
+        <p class="date">November 25, 2023</p>
       </div>
     </div>
     
@@ -145,12 +144,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#choix-du-sujet" id="toc-choix-du-sujet" class="nav-link active" data-scroll-target="#choix-du-sujet"><span class="header-section-number">1</span> Choix du sujet</a></li>
+  <li><a href="#sujet-et-description" id="toc-sujet-et-description" class="nav-link active" data-scroll-target="#sujet-et-description"><span class="header-section-number">1</span> Sujet et description</a></li>
   <li><a href="#choix-métiers" id="toc-choix-métiers" class="nav-link" data-scroll-target="#choix-métiers"><span class="header-section-number">2</span> Choix métiers</a></li>
   <li><a href="#choix-techniques" id="toc-choix-techniques" class="nav-link" data-scroll-target="#choix-techniques"><span class="header-section-number">3</span> Choix techniques</a>
   <ul class="collapse">
-  <li><a href="#technologies-utilisées" id="toc-technologies-utilisées" class="nav-link" data-scroll-target="#technologies-utilisées"><span class="header-section-number">3.1</span> Technologies Utilisées</a></li>
+  <li><a href="#outils-utilisés" id="toc-outils-utilisés" class="nav-link" data-scroll-target="#outils-utilisés"><span class="header-section-number">3.1</span> Outils Utilisés</a></li>
   </ul></li>
+  <li><a href="#arborescence-du-projet" id="toc-arborescence-du-projet" class="nav-link" data-scroll-target="#arborescence-du-projet"><span class="header-section-number">4</span> Arborescence du projet</a></li>
   </ul>
 </nav>
 </div>
@@ -161,23 +161,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="choix-du-sujet" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="choix-du-sujet"><span class="header-section-number">1</span> Choix du sujet</h2>
-<p>Nous avons décidé de nous intéresser au sujet 3: <code>Attractivité fiscale des territoires pour les entreprises</code></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjson)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/REI_2022.xlsx"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DEPARTEMENT <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">33</span>, <span class="dv">16</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DEPARTEMENT, DIRECTION, COMMUNE, <span class="dv">5</span>, <span class="fu">contains</span>(<span class="st">"CFE"</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>delib <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">"data/deliberations-de-fiscalite-directe-locale-des-communes-2023-hors-taux.csv"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>delib_test <span class="ot">&lt;-</span> delib <span class="sc">%&gt;%</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DEP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">33</span>, <span class="dv">16</span>))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(data_test, <span class="st">"data/REI_2022_95_33_16(1).csv"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(delib_test, <span class="st">"data/delib_95_33_16.csv"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#write.table(data_test, file = "data/REI_2022_95_33_16_UTF8.csv", sep = ";", row.names = FALSE, fileEncoding = "UTF-8")</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#write.table(delib_test, file = "data/delib_95_33_16_UTF8.csv", sep = ";", row.names = FALSE, fileEncoding = "UTF-8")</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>communes_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/v_commune_2023.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DEP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">16</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(COM, NCCENR) <span class="sc">%&gt;%</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">code =</span> COM, <span class="at">nom =</span> NCCENR) <span class="sc">%&gt;%</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cfe =</span> <span class="fu">round</span>(<span class="fu">runif</span>(<span class="fu">n</span>(), <span class="at">min =</span> <span class="fl">2.5</span>, <span class="at">max =</span> <span class="fl">15.7</span>),<span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hover_text =</span> <span class="fu">paste0</span>(nom, <span class="st">"&lt;br&gt;"</span>, cfe))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="sujet-et-description" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="sujet-et-description"><span class="header-section-number">1</span> Sujet et description</h2>
+<p>Nous avons décidé de nous intéresser au sujet 3:</p>
+<p><strong><code>Attractivité fiscale des territoires pour les entreprises.</code></strong></p>
+<p>Le but final de notre application est de permettre aux <strong>entreprises</strong> de comprendre rapidement, en fonction de ses différentes caractéristiques, là où il est lui <strong>avantageux fiscalement</strong> de s’implanter.<br>
+<br>
+Cette visualisation permet de différencier ces coûts fiscaux à l’échelle des communes de la Charente.</p>
 </section>
 <section id="choix-métiers" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="choix-métiers"><span class="header-section-number">2</span> Choix métiers</h2>
+<p>Nous avons choisi de nous concentrer sur le calcul de la CFE dans le département de la Charente puisque c’est le seul département pour laquelle nous avions ces données. Pour cela, nous prenons en compte le calcul de la base grâce au tarif foncier et le taux de l’intercommunalité ainsi que le coefficient de régulation.</p>
 </section>
 <section id="choix-techniques" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="choix-techniques"><span class="header-section-number">3</span> Choix techniques</h2>
 <p>L’objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l’attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d’outils open source, en prenant en compte l’expertise préexistante de notre équipe et la facilité d’intégration de ces technologies.</p>
-<section id="technologies-utilisées" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="technologies-utilisées"><span class="header-section-number">3.1</span> Technologies Utilisées</h3>
+<p>Concernant les données géographiques, nous avons utilisé les données des communes dans un fichier</p>
+<section id="outils-utilisés" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="outils-utilisés"><span class="header-section-number">3.1</span> Outils Utilisés</h3>
 <table class="table">
-<colgroup>
-<col style="width: 37%">
-<col style="width: 62%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Technologie</th>
@@ -187,17 +221,100 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><code>Python</code></td>
-<td>Python est un langage de programme très connu</td>
+<td>Python est un langage de programme très connu orienté objet. Nous l’avons utilisé pour collecter, formater les données ainsi que calculer la CFE.</td>
 </tr>
 <tr class="even">
+<td><code>R</code></td>
+<td>R est un langage de programmation largement adopté par les statisticiens, économistes, biologistes et cartographes. Nous avons exploité sa facilité d’utilisation, notamment en cartographie et pour le développement d’interfaces utilisateur.</td>
+</tr>
+<tr class="odd">
 <td><code>Shiny</code></td>
 <td>Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s’appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement</td>
+</tr>
+<tr class="even">
+<td><code>Plotly</code></td>
+<td>Plotly est une bibliothèque graphique interactive, open-source et basée sur un navigateur. <a href="https://plotly.com/r/" title="Plotly website">Plus d’informations ici</a>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="arborescence-du-projet" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="arborescence-du-projet"><span class="header-section-number">4</span> Arborescence du projet</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(<span class="at">path=</span><span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>.
+├── data
+│   ├── charente.geojson
+│   ├── charente.json
+│   ├── communes-16-charente.geojson
+│   ├── communes_16.csv
+│   ├── deliberations-de-fiscalite-directe-locale-des-communes-2023-hors-taux.csv
+│   ├── delib_95_33_16.csv
+│   ├── delib_95_33_16_UTF8.csv
+│   ├── Notice_explicative_REI_2022.pdf
+│   ├── REI_2022.xlsx
+│   ├── REI_2022_95_33_16(1).csv
+│   ├── REI_2022_95_33_16.csv
+│   ├── REI_2022_95_33_16_UTF8.csv
+│   ├── TRACE_REI_2022.xlsx
+│   └── v_commune_2023.csv
+├── documentation.html
+├── documentation.pdf
+├── documentation.qmd
+├── documentation.rmarkdown
+├── info_impots
+│   ├── deliberations_2023_communes.pdf
+│   └── taux_votes_2023_communes_epci.pdf
+├── nul
+├── README.md
+├── shiny_ui.R
+└── src
+    ├── dataObject
+    │   ├── Company.py
+    │   ├── foncierTaxDataByCommune.py
+    │   ├── MyData.py
+    │   ├── Taxe.py
+    │   └── __init__.py
+    ├── main.py
+    └── ress
+        ├── delib_95_33_16.csv
+        ├── REI_2022_95_33_16.csv
+        └── TRACE_REI_2022.xlsx</code></pre>
+</div>
+</div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Dossier parent</th>
+<th>Description des tâches</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data</code></td>
+<td>Python est un langage de programme très connu orienté objet. Nous l’avons utilisé pour collecter, formater les données ainsi que calculer la CFE.</td>
+</tr>
+<tr class="even">
+<td><code>documentation_files</code></td>
+<td>Ce dossier contient l’ensemble des documents nécessaires à l’affichage de cette documentation directement en HTML, ce qui est idéal pour la mettre en ligne et permettre à tout le monde de comprendre rapidement le projet.</td>
+</tr>
+<tr class="odd">
+<td><code>shiny_ui.R</code></td>
+<td>Ce fichier contient à la fois le serveur et l’UI nécessaires à l’exécution de l’application Shiny.</td>
+</tr>
+<tr class="even">
+<td><code>src</code></td>
+<td>Ce dossier contient l’ensemble des documents et données python nécessaires au calcul des différentes taxes. Ces traitements sont exécutés depuis Shiny en R grâce à la librairie <a href="https://rstudio.github.io/reticulate/" title="Info package Reticulate"><code>Reticulate</code></a> permettant d’exécuter du code Python depuis R.</td>
 </tr>
 </tbody>
 </table>
 <!-- -->
 
-</section>
 </section>
 
 </main>
@@ -486,82 +603,141 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Hackathon DGFIP PSL 2023 "</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Attractivité fiscale des territoires pour les entreprises"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Olivier Caron</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    email: olivier.caron@dauphine.psl.eu</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations: </span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">      name: "Paris Dauphine - PSL"</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">      city: Paris</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">      state: France</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Victorien Gbaguidi</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    email: victorien.gbaguidi@dauphine.eu</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations: </span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">      name: "Paris Dauphine - PSL"</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">      city: Paris</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">      state: France</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Sagliss Oussama</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">    email: oussama.sagliss@dauphine.eu</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations: </span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">      name: "Paris Dauphine - PSL"</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">      city: Paris</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">      state: France</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: David Roufé</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">    email: david.roufe@dauphine.eu</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations: </span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">      name: "Paris Dauphine - PSL"</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">      city: Paris</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">      state: France</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="an">date :</span><span class="co"> "last-modified"</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="an">number-sections:</span><span class="co"> true</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="an">number-depth:</span><span class="co"> 10</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">    theme:</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">      light: yeti</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">      #dark: darkly</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: "Display code"</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true #enables to display/hide all blocks of code</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true #enables to copy code</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">    grid:</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">      body-width: 1000px</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">      margin-width: 100px</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="an">fig-align:</span><span class="co"> "center"</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="an">highlight-style:</span><span class="co"> ayu</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="an">css:</span><span class="co"> styles.css</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix du sujet</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>Nous avons décidé de nous intéresser au sujet 3: <span class="in">`Attractivité fiscale des territoires pour les entreprises`</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix métiers</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix techniques</span></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>L'objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l'attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d'outils open source, en prenant en compte l'expertise préexistante de notre équipe et la facilité d'intégration de ces technologies.</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### Technologies Utilisées</span></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>| Technologie | Description                                                                                                                            |</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>|---------------------------|---------------------------------------------|</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Python`</span>               | Python est un langage de programme très connu                                                                         |</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Shiny`</span>      | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                                                                                     |</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Hackathon DGFIP PSL 2023 "</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Attractivité fiscale des territoires pour les entreprises"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Olivier Caron</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">    email: olivier.caron@dauphine.psl.eu</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations: </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">      name: "Paris Dauphine - PSL"</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">      city: Paris</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">      state: France</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Victorien Gbaguidi</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">    email: victorien.gbaguidi@dauphine.eu</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations: </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">      name: "Paris Dauphine - PSL"</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">      city: Paris</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">      state: France</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Sagliss Oussama</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">    email: oussama.sagliss@dauphine.eu</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations: </span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">      name: "Paris Dauphine - PSL"</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">      city: Paris</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">      state: France</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: David Roufé</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">    email: david.roufe@dauphine.eu</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations: </span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">      name: "Paris Dauphine - PSL"</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">      city: Paris</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">      state: France</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="an">date :</span><span class="co"> "last-modified"</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="an">number-sections:</span><span class="co"> true</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="an">number-depth:</span><span class="co"> 10</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">    theme:</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">      light: yeti</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">      #dark: darkly</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: "Display code"</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true #enables to display/hide all blocks of code</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true #enables to copy code</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">    grid:</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">      body-width: 1000px</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">      margin-width: 100px</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="an">fig-align:</span><span class="co"> "center"</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="an">highlight-style:</span><span class="co"> ayu</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="an">reference-location:</span><span class="co"> margin</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: library-load-data</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjson)</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/REI_2022.xlsx"</span>)</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DEPARTEMENT <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">33</span>, <span class="dv">16</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(DEPARTEMENT, DIRECTION, COMMUNE, <span class="dv">5</span>, <span class="fu">contains</span>(<span class="st">"CFE"</span>))</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>delib <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">"data/deliberations-de-fiscalite-directe-locale-des-communes-2023-hors-taux.csv"</span>)</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>delib_test <span class="ot">&lt;-</span> delib <span class="sc">%&gt;%</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DEP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">33</span>, <span class="dv">16</span>))</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(data_test, <span class="st">"data/REI_2022_95_33_16(1).csv"</span>)</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv2</span>(delib_test, <span class="st">"data/delib_95_33_16.csv"</span>)</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="co">#write.table(data_test, file = "data/REI_2022_95_33_16_UTF8.csv", sep = ";", row.names = FALSE, fileEncoding = "UTF-8")</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="co">#write.table(delib_test, file = "data/delib_95_33_16_UTF8.csv", sep = ";", row.names = FALSE, fileEncoding = "UTF-8")</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>communes_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/v_commune_2023.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DEP <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">16</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(COM, NCCENR) <span class="sc">%&gt;%</span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">code =</span> COM, <span class="at">nom =</span> NCCENR) <span class="sc">%&gt;%</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cfe =</span> <span class="fu">round</span>(<span class="fu">runif</span>(<span class="fu">n</span>(), <span class="at">min =</span> <span class="fl">2.5</span>, <span class="at">max =</span> <span class="fl">15.7</span>),<span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hover_text =</span> <span class="fu">paste0</span>(nom, <span class="st">"&lt;br&gt;"</span>, cfe))</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sujet et description</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>Nous avons décidé de nous intéresser au sujet 3:</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>**`Attractivité fiscale des territoires pour les entreprises.`**</span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>Le but final de notre application est de permettre aux **entreprises** de comprendre rapidement, en fonction de ses différentes caractéristiques, là où il est lui **avantageux fiscalement** de s'implanter.\</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>\</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>Cette visualisation permet de différencier ces coûts fiscaux à l'échelle des communes de la Charente.</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix métiers</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>Nous avons choisi de nous concentrer sur le calcul de la CFE dans le département de la Charente puisque c'est le seul département pour laquelle nous avions ces données. Pour cela, nous prenons en compte le calcul de la base grâce au tarif foncier et le taux de l'intercommunalité ainsi que le coefficient de régulation.</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="fu">## Choix techniques</span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>L'objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l'attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d'outils open source, en prenant en compte l'expertise préexistante de notre équipe et la facilité d'intégration de ces technologies.</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>Concernant les données géographiques, nous avons utilisé les données des communes dans un fichier</span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="fu">### Outils Utilisés</span></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>| Technologie | Description                                                                                                                                                                                                                                     |</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>|---------------------------|---------------------------------------------|</span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Python`</span>    | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE.                                                                                               |</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>| <span class="in">`R`</span>         | R est un langage de programmation largement adopté par les statisticiens, économistes, biologistes et cartographes. Nous avons exploité sa facilité d'utilisation, notamment en cartographie et pour le développement d'interfaces utilisateur. |</span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Shiny`</span>     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                    |</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>| <span class="in">`Plotly`</span>    | Plotly est une bibliothèque graphique interactive, open-source et basée sur un navigateur. <span class="co">[</span><span class="ot">Plus d'informations ici</span><span class="co">](https://plotly.com/r/ "Plotly website")</span>.                                                                                   |</span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="fu">## Arborescence du projet</span></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: arborescence</span></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(<span class="at">path=</span><span class="st">"."</span>)</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>| Dossier parent        | Description des tâches                                                                                                                                                                                                                                                                                          |</span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>|---------------------------|---------------------------------------------|</span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>| <span class="in">`data`</span>                | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE.                                                                                                                                                               |</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>| <span class="in">`documentation_files`</span> | Ce dossier contient l'ensemble des documents nécessaires à l'affichage de cette documentation directement en HTML, ce qui est idéal pour la mettre en ligne et permettre à tout le monde de comprendre rapidement le projet.                                                                                    |</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>| <span class="in">`shiny_ui.R`</span>          | Ce fichier contient à la fois le serveur et l'UI nécessaires à l'exécution de l'application Shiny.                                                                                                                                                                                                              |</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>| <span class="in">`src`</span>                 | Ce dossier contient l'ensemble des documents et données python nécessaires au calcul des différentes taxes. Ces traitements sont exécutés depuis Shiny en R grâce à la librairie <span class="co">[</span><span class="ot">`Reticulate`</span><span class="co">](https://rstudio.github.io/reticulate/ "Info package Reticulate")</span> permettant d'exécuter du code Python depuis R. |</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

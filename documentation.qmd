@@ -52,14 +52,13 @@ execute:
 editor: visual
 fig-align: "center"
 highlight-style: ayu
-css: styles.css
 reference-location: margin
 ---
 
-<<<<<<< HEAD
 ```{r}
 #| label: library-load-data
-#| echo: false
+#| echo: true
+#| eval: false
 
 library(tidyverse)
 library(readxl)
@@ -91,23 +90,66 @@ communes_data <- read.csv("data/v_commune_2023.csv") %>%
   
 ```
 
-=======
->>>>>>> 9c7f3854e06a6b9224ad6a11f9e557dfe5891a49
-## Choix du sujet
+## Sujet et description
 
-Nous avons décidé de nous intéresser au sujet 3: `Attractivité fiscale des territoires pour les entreprises`
+Nous avons décidé de nous intéresser au sujet 3:
+
+**`Attractivité fiscale des territoires pour les entreprises.`**
+
+Le but final de notre application est de permettre aux **entreprises** de comprendre rapidement, en fonction de ses différentes caractéristiques, là où il est lui **avantageux fiscalement** de s'implanter.\
+\
+Cette visualisation permet de différencier ces coûts fiscaux à l'échelle des communes de la Charente.
 
 ## Choix métiers
 
-
+Nous avons choisi de nous concentrer sur le calcul de la CFE dans le département de la Charente puisque c'est le seul département pour laquelle nous avions ces données. Pour cela, nous prenons en compte le calcul de la base grâce au tarif foncier et le taux de l'intercommunalité ainsi que le coefficient de régulation.
 
 ## Choix techniques
 
 L'objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l'attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d'outils open source, en prenant en compte l'expertise préexistante de notre équipe et la facilité d'intégration de ces technologies.
 
-### Technologies Utilisées
+Concernant les données géographiques, nous avons utilisé les données des communes dans un fichier GeoJson
 
-| Technologie | Description                                                                                                                            |
+### Outils Utilisés
+
+| Technologie | Description                                                                                                                                                                                                                                     |
 |---------------------------|---------------------------------------------|
-| `Python`               | Python est un langage de programme très connu                                                                         |
-| `Shiny`      | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                                                                                     |
+| `Python`    | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE.                                                                                               |
+| `R`         | R est un langage de programmation largement adopté par les statisticiens, économistes, biologistes et cartographes. Nous avons exploité sa facilité d'utilisation, notamment en cartographie et pour le développement d'interfaces utilisateur. |
+| `Shiny`     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                    |
+| `Plotly`    | Plotly est une bibliothèque graphique interactive, open-source et basée sur un navigateur. [Plus d'informations ici](https://plotly.com/r/ "Plotly website").                                                                                   |
+
+## Arborescence du projet
+
+```{r}
+#| label: arborescence
+fs::dir_tree(path=".")
+```
+
+| Dossier parent        | Description des tâches                                                                                                                                                                                                                                                                                          |
+|---------------------------|---------------------------------------------|
+| `data`                | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE.                                                                                                                                                               |
+| `documentation_files` | Ce dossier contient l'ensemble des documents nécessaires à l'affichage de cette documentation directement en HTML, ce qui est idéal pour la mettre en ligne et permettre à tout le monde de comprendre rapidement le projet.                                                                                    |
+| `shiny_ui.R`          | Ce fichier contient à la fois le serveur et l'UI nécessaires à l'exécution de l'application Shiny.                                                                                                                                                                                                              |
+| `src`                 | Ce dossier contient l'ensemble des documents et données python nécessaires au calcul des différentes taxes. Ces traitements sont exécutés depuis Shiny en R grâce à la librairie [`Reticulate`](https://rstudio.github.io/reticulate/ "Info package Reticulate") permettant d'exécuter du code Python depuis R. |
+
+```{r}
+# Fonction pour identifier et marquer les dossiers parents
+mark_parents <- function(path) {
+  # Obtenir la structure du répertoire sous forme de liste
+  files <- fs::dir_ls(path, recurse = TRUE)
+
+  # Identifier les dossiers parents
+  parents <- dirname(files)
+  unique_parents <- unique(parents)
+
+  # Marquer les dossiers parents avec une étoile
+  marked_files <- ifelse(files %in% unique_parents, paste0("* ", files), files)
+
+  return(marked_files)
+}
+
+# Utiliser la fonction pour votre chemin spécifique
+marked_dir_structure <- mark_parents(path=".")
+cat(marked_dir_structure, sep="\n")
+```
