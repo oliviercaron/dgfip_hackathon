@@ -27,14 +27,14 @@ author:
       name: "Paris Dauphine - PSL"
       city: Paris
       state: France
-date : "last-modified"
+date : "11/25/2023"
 toc: true
 number-sections: true
 number-depth: 10
 format:
   html:
     theme:
-      light: yeti
+      light: litera
       #dark: darkly
     code-fold: true
     code-summary: "Display code"
@@ -44,6 +44,7 @@ format:
       body-width: 1000px
       margin-width: 100px
     toc: true
+    toc-title: "Table des Matières"
     toc-location: left
 execute:
   echo: true
@@ -53,12 +54,13 @@ editor: visual
 fig-align: "center"
 highlight-style: ayu
 reference-location: margin
+css: style.css
 ---
 
 ```{r}
 #| label: library-load-data
 #| echo: true
-#| eval: false
+#| eval: true
 
 library(tidyverse)
 library(readxl)
@@ -66,58 +68,258 @@ library(rjson)
 library(fs)
 library(plotly)
 
-data <- read_xlsx("data/REI_2022.xlsx")
-data_test <- data %>%
-  filter(DEPARTEMENT %in% c(95, 33, 16)) %>%
-  select(DEPARTEMENT, DIRECTION, COMMUNE, 5, contains("CFE"))
-  
-
-delib <- read.csv2("data/deliberations-de-fiscalite-directe-locale-des-communes-2023-hors-taux.csv")
-delib_test <- delib %>%
-  filter(DEP %in% c(95, 33, 16))
-
-write_csv2(data_test, "data/REI_2022_95_33_16(1).csv")
-write_csv2(delib_test, "data/delib_95_33_16.csv")
-#write.table(data_test, file = "data/REI_2022_95_33_16_UTF8.csv", sep = ";", row.names = FALSE, fileEncoding = "UTF-8")
-#write.table(delib_test, file = "data/delib_95_33_16_UTF8.csv", sep = ";", row.names = FALSE, fileEncoding = "UTF-8")
-
-communes_data <- read.csv("data/v_commune_2023.csv") %>%
-  filter(DEP %in% c(16)) %>%
+# Chargement et préparation des données
+communes_data <- read.csv("data/v_commune_insee_2023.csv") #codes et noms des communes selon l'INSEE
+communes_data <- communes_data %>%
+  filter(DEP %in% c(16)) %>% #filtrage sur la Charente
   select(COM, NCCENR) %>%
   rename(code = COM, nom = NCCENR) %>%
-  mutate(cfe = round(runif(n(), min = 2.5, max = 15.7),2)) %>%
+  mutate(cfe = round(runif(n(), min = 227, max = 7046),2)) %>%
   mutate(hover_text = paste0(nom, "<br>", cfe))
   
 ```
 
-## Sujet et description
-
-Nous avons décidé de nous intéresser au sujet 3:
+## Sujet
 
 **`Attractivité fiscale des territoires pour les entreprises.`**
 
-Le but final de notre application est de permettre aux **entreprises** de comprendre rapidement, en fonction de ses différentes caractéristiques, là où il est lui **avantageux fiscalement** de s'implanter.\
-\
-Cette visualisation permet de différencier ces coûts fiscaux à l'échelle des communes de la Charente.
+## Contexte
+
+En France, la localisation d'une entreprise peut avoir un impact significatif sur ses finances, comprendre l'attractivité fiscale des différents territoires devient crucial. 
+Ce projet s'inscrit dans une démarche d'**aide à la décision pour les entreprises** en quête de la localisation la plus propice, en termes de **charges fiscales**, adaptée à leurs caractéristiques propres.
+
+## Projet
+
+Le projet développé lors de ce hackathon est un tableau de bord permettant de différencier ces coûts fiscaux à l'échelle des communes de la Charente.\
+Toutefois, celle-ci est facilement adaptable à l'ensemble des communes car un filtre est réalisé sur les communes de la Charente, les seules pour lesquelles nous ayons des données fiscales.
 
 ## Choix métiers
 
-Nous avons choisi de nous concentrer sur le calcul de la CFE dans le département de la Charente puisque c'est le seul département pour laquelle nous avions ces données. Pour cela, nous prenons en compte le calcul de la base grâce au tarif foncier et le taux de l'intercommunalité ainsi que le coefficient de régulation.
+Nous avons choisi de nous concentrer sur le calcul de la **CFE** (cotisation foncière des entreprises) compte tenu des délais.\
+Pour cela, nous prenons en compte le calcul de la base grâce au tarif foncier et le taux de l'intercommunalité ainsi que le coefficient de régulation.
 
 ## Choix techniques
 
-L'objectif de ce projet est de développer un tableau de bord interactif permettant de visualiser l'attractivité fiscale des communes en France. Pour réaliser ce dashboard, nous avons sélectionné un ensemble d'outils open source, en prenant en compte l'expertise préexistante de notre équipe et la facilité d'intégration de ces technologies.
+Pour réaliser ce dashboard, nous avons sélectionné un ensemble d'outils open source, en prenant en compte l'expertise préexistante de notre équipe et la facilité d'intégration de ces technologies.
 
-Concernant les données géographiques, nous avons utilisé les données des communes dans un fichier GeoJson
+Concernant les données géographiques, nous avons utilisé les données des contours de communes de la Charente dans un fichier json.
 
-### Outils Utilisés
+### Outils utilisés
 
-| Technologie | Description                                                                                                                                                                                                                                     |
-|---------------------------|---------------------------------------------|
-| `Python`    | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE.                                                                                               |
-| `R`         | R est un langage de programmation largement adopté par les statisticiens, économistes, biologistes et cartographes. Nous avons exploité sa facilité d'utilisation, notamment en cartographie et pour le développement d'interfaces utilisateur. |
-| `Shiny`     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement                                    |
-| `Plotly`    | Plotly est une bibliothèque graphique interactive, open-source et basée sur un navigateur. [Plus d'informations ici](https://plotly.com/r/ "Plotly website").                                                                                   |
+| Technologie | Description                                                                                                                                                                                                                                       |
+|-------------------|-----------------------------------------------------|
+| `Python`    | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE (non finalisé).                                                                                  |
+| `R`         | R est un langage de programmation largement adopté par les statisticiens, économistes, biologistes et cartographes. Nous avons exploité sa facilité d'utilisation, notamment en cartographie et pour le développement de l'interface utilisateur. |
+| `Shiny`     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement.                                     |
+| `Plotly`    | Plotly est une bibliothèque graphique interactive, open-source et basée sur un navigateur. La carte est créé grâce à cet outil. [Plus d'informations ici](https://plotly.com/r/ "Plotly website").                                                |
+
+### La carte
+
+La carte est réalisée avec Plotly.
+
+La visualisation interactive offre la possibilité de passer la souris sur les différentes communes pour afficher instantanément le niveau de taxation de chacune. Le code couleur est utilisé pour indiquer les variations du montant de la taxe à première vue.
+
+#### Différentes palettes de couleurs
+
+Nous avons choisi une palette de couleur simple mais il est très aisé de changer les différentes propriétés esthétiques de la carte. Voici quelques autres propositions.
+
+::: panel-tabset
+### Défaut
+
+```{r}
+#| label: carte-communes-charente-defaut
+
+url <- 'data/charente.json'
+geojson <- rjson::fromJSON(file=url)
+g <- list(
+  fitbounds = "locations",
+  visible = FALSE,
+  scope = "france"
+)
+
+custom_colorscale <- list(
+  c(0, "red"),    # rouge à 0%
+  c(0.5, "yellow"),  # jaune à 50%
+  c(1, "green")   # vert à 100%
+)
+
+fig <- plot_ly() 
+fig <- fig %>% add_trace(
+  type = "choroplethmapbox",
+  geojson = geojson,
+  locations = communes_data$code,
+  z = communes_data$cfe,
+  text = communes_data$hover_text,
+  hoverinfo = "text",
+  colorscale = custom_colorscale,
+  reversescale = TRUE,
+  featureidkey = "properties.code",
+  marker = list(
+    line = list(width = 0.5),
+    opacity = 0.8
+  )
+)
+fig <- fig %>% colorbar(title = "CFE")
+fig <- fig %>% layout(
+  mapbox = list(
+    style = "carto-positron",
+    zoom = 7,  # Ajuster le niveau de zoom pour mieux cadrer le département 16
+    center = list(lon = 0.1, lat = 45.7)  # Coordonnées centrées sur le département 16
+  )
+)
+
+fig
+
+```
+
+### Viridis
+
+```{r}
+#| label: carte-communes-charente-viridis
+
+url <- 'data/charente.json'
+geojson <- rjson::fromJSON(file=url)
+g <- list(
+  fitbounds = "locations",
+  visible = FALSE,
+  scope = "france"
+)
+
+fig <- plot_ly() 
+fig <- fig %>% add_trace(
+  type = "choroplethmapbox",
+  geojson = geojson,
+  locations = communes_data$code,
+  z = communes_data$cfe,
+  text = communes_data$hover_text,
+  hoverinfo = "text",
+  colorscale = "Viridis",
+  reversescale = TRUE,
+  featureidkey = "properties.code",
+  marker = list(
+    line = list(width = 0.5),
+    opacity = 0.8
+  )
+)
+fig <- fig %>% colorbar(title = "CFE")
+fig <- fig %>% layout(
+  mapbox = list(
+    style = "carto-positron",
+    zoom = 7,  # Ajuster le niveau de zoom pour mieux cadrer le département 16
+    center = list(lon = 0.1, lat = 45.7)  # Coordonnées centrées sur le département 16
+  )
+)
+
+fig
+```
+
+### Noir
+
+```{r}
+#| label: carte-communes-charente-noir
+custom_colorscale <- list(
+  c(0, "black"), 
+  c(1, "white")
+)
+
+
+url <- 'data/charente.json'
+geojson <- rjson::fromJSON(file=url)
+g <- list(
+  fitbounds = "locations",
+  visible = FALSE,
+  scope = "france"
+)
+
+fig <- plot_ly() 
+fig <- fig %>% add_trace(
+  type = "choroplethmapbox",
+  geojson = geojson,
+  locations = communes_data$code,
+  z = communes_data$cfe,
+  text = communes_data$hover_text,
+  hoverinfo = "text",
+  colorscale = custom_colorscale,
+  reversescale = TRUE,
+  featureidkey = "properties.code",
+  marker = list(
+    line = list(width = 0.3,
+                color = "black"),
+    opacity = 0.8
+  )
+)
+fig <- fig %>% colorbar(title = "CFE")
+fig <- fig %>% layout(
+  mapbox = list(
+    style = "carto-positron",
+    zoom = 7,  # Ajuster le niveau de zoom pour mieux cadrer le département 16
+    center = list(lon = 0.1, lat = 45.7)  # Coordonnées centrées sur le département 16
+  )
+)
+
+fig
+```
+
+### Heat
+
+```{r}
+#| label: carte-communes-charente-heat
+
+
+
+url <- 'data/charente.json'
+geojson <- rjson::fromJSON(file=url)
+g <- list(
+  fitbounds = "locations",
+  visible = FALSE,
+  scope = "france"
+)
+
+fig <- plot_ly() 
+fig <- fig %>% add_trace(
+  type = "choroplethmapbox",
+  geojson = geojson,
+  locations = communes_data$code,
+  z = communes_data$cfe,
+  text = communes_data$hover_text,
+  hoverinfo = "text",
+  colorscale = "heat",
+  reversescale = FALSE,
+  featureidkey = "properties.code",
+  marker = list(
+    line = list(width = 0.4,
+                color = "black"),
+    opacity = 0.8
+  )
+)
+fig <- fig %>% colorbar(title = "CFE")
+fig <- fig %>% layout(
+  mapbox = list(
+    style = "carto-positron",
+    zoom = 7,  # Ajuster le niveau de zoom pour mieux cadrer le département 16
+    center = list(lon = 0.1, lat = 45.7)  # Coordonnées centrées sur le département 16
+  )
+)
+
+fig
+```
+:::
+
+## Un aperçu de l'application
+
+### Interface utilisateur
+
+Plusieurs champs sont situés dans la barre latérale gauche, permettant de préciser les caractéristiques des entreprises.
+
+![](images/ui_shiny.png){fig-align="center"}
+
+### Tableau des données
+
+Ce tableau permet de voir toutes les communes et la valeur de la CFE associée.
+
+Une barre de recherche dans le coin supérieur droit est mise à disposition de l'utilisateur pour chercher la commune souhaitée.
+
+![](images/tableau_communes.png){fig-align="center"}
 
 ## Arborescence du projet
 
@@ -126,30 +328,47 @@ Concernant les données géographiques, nous avons utilisé les données des com
 fs::dir_tree(path=".")
 ```
 
-| Dossier parent        | Description des tâches                                                                                                                                                                                                                                                                                          |
-|---------------------------|---------------------------------------------|
-| `data`                | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE.                                                                                                                                                               |
-| `documentation_files` | Ce dossier contient l'ensemble des documents nécessaires à l'affichage de cette documentation directement en HTML, ce qui est idéal pour la mettre en ligne et permettre à tout le monde de comprendre rapidement le projet.                                                                                    |
-| `shiny_ui.R`          | Ce fichier contient à la fois le serveur et l'UI nécessaires à l'exécution de l'application Shiny.                                                                                                                                                                                                              |
-| `src`                 | Ce dossier contient l'ensemble des documents et données python nécessaires au calcul des différentes taxes. Ces traitements sont exécutés depuis Shiny en R grâce à la librairie [`Reticulate`](https://rstudio.github.io/reticulate/ "Info package Reticulate") permettant d'exécuter du code Python depuis R. |
+### Description des principaux fichiers
+
+| Dossier parent        | Description des tâches                                                                                                                                                                                                                                                                                                             |
+|-------------------|-----------------------------------------------------|
+| `data`                | Ce dossier contient les données des communes, à la fois les contours, les codes et les noms de communes (INSEE).                                                                                                                                                                                                                |
+| `documentation_files` | Ce dossier contient l'ensemble des documents nécessaires à l'affichage de cette documentation directement en HTML, ce qui est idéal pour la mettre en ligne et permettre à tout le monde de comprendre rapidement le projet.                                                                                                       |
+| `shiny_ui.R`          | Ce fichier contient à la fois le serveur et l'UI nécessaires à l'exécution de l'application Shiny. Il est possible de séparer les deux parties en deux fichiers distincts. L'application est relativement simple et reste parfaitement compréhensible dans un seul fichier. Les deux logiques sont bien affichées en commentaires. |
+| `src`                 | Ce dossier contient l'ensemble des documents et données python nécessaires au calcul des différentes taxes. Ces traitements sont exécutés depuis R grâce à la librairie [`Reticulate`](https://rstudio.github.io/reticulate/ "Info package Reticulate") permettant d'exécuter du code Python.                                      |
+
+## Exécuter l'application
+
+### Dépendances
+
+Pour exécuter notre application Shiny, certains packages R sont nécessaires.
+
+Voici la liste des packages requis et de la commande pour les installer :
 
 ```{r}
-# Fonction pour identifier et marquer les dossiers parents
-mark_parents <- function(path) {
-  # Obtenir la structure du répertoire sous forme de liste
-  files <- fs::dir_ls(path, recurse = TRUE)
+#| label: packages
+#| echo: true
+#| eval: false
+#| code-fold: show
+install.packages(c("shiny",
+                   "shinydashboard",
+                   "plotly",
+                   "tidyverse",
+                   "rjson",
+                   "DT"))
 
-  # Identifier les dossiers parents
-  parents <- dirname(files)
-  unique_parents <- unique(parents)
-
-  # Marquer les dossiers parents avec une étoile
-  marked_files <- ifelse(files %in% unique_parents, paste0("* ", files), files)
-
-  return(marked_files)
-}
-
-# Utiliser la fonction pour votre chemin spécifique
-marked_dir_structure <- mark_parents(path=".")
-cat(marked_dir_structure, sep="\n")
 ```
+
+### Démarrer l'application
+
+Se placer à la racine du projet et exécuter la commande suivante :
+
+```{r}
+#| label: run-app
+#| echo: true
+#| eval: false
+#| code-fold: show
+runApp("shiny_ui.R")
+```
+
+ou cliquer sur "`Run App`" depuis Rstudio.

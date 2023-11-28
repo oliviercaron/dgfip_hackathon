@@ -6,9 +6,9 @@ library(rjson)
 library(DT)
 
 # Chargement et préparation des données
-communes_data <- read.csv("data/v_commune_2023.csv")
+communes_data <- read.csv("data/v_commune_insee_2023.csv") #codes et noms des communes selon l'INSEE
 communes_data <- communes_data %>%
-  filter(DEP %in% c(16)) %>%
+  filter(DEP %in% c(16)) %>% #filtrage sur la Charente
   select(COM, NCCENR) %>%
   rename(code = COM, nom = NCCENR) %>%
   mutate(cfe = round(runif(n(), min = 227, max = 7046),2)) %>%
@@ -89,7 +89,7 @@ server <- function(input, output) {
   
   output$map <- renderPlotly({  # Utiliser renderPlotly
     data <- reactive_communes_data()
-    url <- 'data/communes-16-charente.geojson'
+    url <- 'data/charente.json'
     geojson <- rjson::fromJSON(file=url)
     g <- list(
       fitbounds = "locations",
