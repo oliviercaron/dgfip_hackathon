@@ -85,8 +85,7 @@ communes_data <- communes_data %>%
 
 ## Contexte
 
-En France, la localisation d'une entreprise peut avoir un impact significatif sur ses finances, comprendre l'attractivité fiscale des différents territoires devient crucial. 
-Ce projet s'inscrit dans une démarche d'**aide à la décision pour les entreprises** en quête de la localisation la plus propice, en termes de **charges fiscales**, adaptée à leurs caractéristiques propres.
+En France, la localisation d'une entreprise peut avoir un impact significatif sur ses finances, comprendre l'attractivité fiscale des différents territoires devient crucial. Ce projet s'inscrit dans une démarche d'**aide à la décision pour les entreprises** en quête de la localisation la plus propice, en termes de **charges fiscales**, adaptée à leurs caractéristiques propres.
 
 ## Projet
 
@@ -107,15 +106,15 @@ Concernant les données géographiques, nous avons utilisé les données des con
 ### Outils utilisés
 
 | Technologie | Description                                                                                                                                                                                                                                       |
-|-------------------|-----------------------------------------------------|
+|--------------------|----------------------------------------------------|
 | `Python`    | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE (non finalisé).                                                                                  |
 | `R`         | R est un langage de programmation largement adopté par les statisticiens, économistes, biologistes et cartographes. Nous avons exploité sa facilité d'utilisation, notamment en cartographie et pour le développement de l'interface utilisateur. |
 | `Shiny`     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement.                                     |
 | `Plotly`    | Plotly est une bibliothèque graphique interactive, open-source et basée sur un navigateur. La carte est créé grâce à cet outil. [Plus d'informations ici](https://plotly.com/r/ "Plotly website").                                                |
 
-### La carte
+### Cartographie
 
-La carte est réalisée avec Plotly.
+La carte géographique est réalisée avec Plotly.
 
 La visualisation interactive offre la possibilité de passer la souris sur les différentes communes pour afficher instantanément le niveau de taxation de chacune. Le code couleur est utilisé pour indiquer les variations du montant de la taxe à première vue.
 
@@ -331,8 +330,8 @@ fs::dir_tree(path=".")
 ### Description des principaux fichiers
 
 | Dossier parent        | Description des tâches                                                                                                                                                                                                                                                                                                             |
-|-------------------|-----------------------------------------------------|
-| `data`                | Ce dossier contient les données des communes, à la fois les contours, les codes et les noms de communes (INSEE).                                                                                                                                                                                                                |
+|--------------------|----------------------------------------------------|
+| `data`                | Ce dossier contient les données des communes, à la fois les contours, les codes et les noms de communes (INSEE).                                                                                                                                                                                                                   |
 | `documentation_files` | Ce dossier contient l'ensemble des documents nécessaires à l'affichage de cette documentation directement en HTML, ce qui est idéal pour la mettre en ligne et permettre à tout le monde de comprendre rapidement le projet.                                                                                                       |
 | `shiny_ui.R`          | Ce fichier contient à la fois le serveur et l'UI nécessaires à l'exécution de l'application Shiny. Il est possible de séparer les deux parties en deux fichiers distincts. L'application est relativement simple et reste parfaitement compréhensible dans un seul fichier. Les deux logiques sont bien affichées en commentaires. |
 | `src`                 | Ce dossier contient l'ensemble des documents et données python nécessaires au calcul des différentes taxes. Ces traitements sont exécutés depuis R grâce à la librairie [`Reticulate`](https://rstudio.github.io/reticulate/ "Info package Reticulate") permettant d'exécuter du code Python.                                      |
