@@ -67,6 +67,7 @@ library(readxl)
 library(rjson)
 library(fs)
 library(plotly)
+library(DT)
 
 # Chargement et préparation des données
 communes_data <- read.csv("data/v_commune_insee_2023.csv") #codes et noms des communes selon l'INSEE
@@ -106,7 +107,7 @@ Concernant les données géographiques, nous avons utilisé les données des con
 ### Outils utilisés
 
 | Technologie | Description                                                                                                                                                                                                                                       |
-|--------------------|----------------------------------------------------|
+|---------------------|---------------------------------------------------|
 | `Python`    | Python est un langage de programme très connu orienté objet. Nous l'avons utilisé pour collecter, formater les données ainsi que calculer la CFE (non finalisé).                                                                                  |
 | `R`         | R est un langage de programmation largement adopté par les statisticiens, économistes, biologistes et cartographes. Nous avons exploité sa facilité d'utilisation, notamment en cartographie et pour le développement de l'interface utilisateur. |
 | `Shiny`     | Shiny est un framework web initialement conçu pour R, et depuis 2022, il est également disponible pour Python. Ce choix s'appuie sur sa capacité à créer des dashboards interactifs et dynamiques facilement.                                     |
@@ -318,7 +319,34 @@ Ce tableau permet de voir toutes les communes et la valeur de la CFE associée.
 
 Une barre de recherche dans le coin supérieur droit est mise à disposition de l'utilisateur pour chercher la commune souhaitée.
 
-![](images/tableau_communes.png){fig-align="center"}
+```{r}
+#| label: datatable
+
+tableau_data <- communes_data %>%
+  select(nom, cfe) %>%
+  arrange(cfe)
+
+col_names <- c("Commune", "Cotisation foncière des entreprises")
+
+datatable(tableau_data,
+          class = 'cell-border stripe',
+          options = list(
+            initComplete = JS(
+              "function(settings, json) {",
+              "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
+              "}"
+            ),
+            info = FALSE,
+            pageLength = 10,
+            language = list(
+              search = "Chercher",
+              lengthMenu = "Afficher _MENU_ valeurs"
+            )
+          ),
+          colnames = col_names
+)
+
+```
 
 ## Arborescence du projet
 
@@ -330,7 +358,7 @@ fs::dir_tree(path=".")
 ### Description des principaux fichiers
 
 | Dossier parent        | Description des tâches                                                                                                                                                                                                                                                                                                             |
-|--------------------|----------------------------------------------------|
+|---------------------|---------------------------------------------------|
 | `data`                | Ce dossier contient les données des communes, à la fois les contours, les codes et les noms de communes (INSEE).                                                                                                                                                                                                                   |
 | `documentation_files` | Ce dossier contient l'ensemble des documents nécessaires à l'affichage de cette documentation directement en HTML, ce qui est idéal pour la mettre en ligne et permettre à tout le monde de comprendre rapidement le projet.                                                                                                       |
 | `shiny_ui.R`          | Ce fichier contient à la fois le serveur et l'UI nécessaires à l'exécution de l'application Shiny. Il est possible de séparer les deux parties en deux fichiers distincts. L'application est relativement simple et reste parfaitement compréhensible dans un seul fichier. Les deux logiques sont bien affichées en commentaires. |
