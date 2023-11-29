@@ -1,5 +1,5 @@
 ---
-title: "Hackathon DGFIP PSL 2023 "
+title: "Hackathon DGFiP PSL 2023 "
 title-block-banner: true
 subtitle: "Attractivité fiscale des territoires pour les entreprises"
 author:
